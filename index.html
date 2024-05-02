@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet Map with GeoJSON Data</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <style>
+      html,
+      body,
+      #map {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+      var map = L.map("map").setView([0, 0], 2);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      // Example GeoJSON data (you should replace this with your own data)
+      var geojsonData = {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: {
+              name: "Boston",
+              population: 694583,
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [-71.0596, 42.3601],
+            },
+          },
+          // Add more features here if needed
+        ],
+      };
+
+      L.geoJSON(geojsonData, {
+        onEachFeature: function (feature, layer) {
+          if (feature.properties && feature.properties.name) {
+            layer.bindPopup(
+              feature.properties.name +
+                "<br>Population: " +
+                feature.properties.population
+            );
+          }
+        },
+      }).addTo(map);
+    </script>
+  </body>
+</html>
