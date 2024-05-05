@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Leaflet Map with GeoJSON Data</title>
+    <title>Leaflet Map with GeoJSON Data and Circles</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
@@ -31,7 +31,7 @@
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      // Example GeoJSON data (you should replace this with your own data)
+      // Example GeoJSON data with multiple points
       var geojsonData = {
         type: "FeatureCollection",
         features: [
@@ -39,15 +39,39 @@
             type: "Feature",
             properties: {
               name: "Boston",
-              population: 694583,
+              group: "Group A",
             },
             geometry: {
               type: "Point",
               coordinates: [-71.0596, 42.3601],
             },
           },
-          // Add more features here if needed
+          {
+            type: "Feature",
+            properties: {
+              name: "New York City",
+              group: "Group B",
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [-74.006, 40.7128],
+            },
+          },
+          // Add more features here for additional points
         ],
+      };
+
+      // Define groups and their respective colors and circle radii
+      var groups = {
+        "Group A": {
+          color: "red",
+          radius: 50000, // Example radius in meters
+        },
+        "Group B": {
+          color: "blue",
+          radius: 50000, // Example radius in meters
+        },
+        // Add more groups here
       };
 
       L.geoJSON(geojsonData, {
@@ -55,12 +79,33 @@
           if (feature.properties && feature.properties.name) {
             layer.bindPopup(
               feature.properties.name +
-                "<br>Population: " +
-                feature.properties.population
+                "<br>Description: " +
+                feature.properties.description +
+                "<br>group: " +
+                feature.properties.group
             );
           }
         },
       }).addTo(map);
+      // Add circles for each group
+      Object.keys(groups).forEach(function (groupName) {
+        var group = groups[groupName];
+        var groupFeatures = geojsonData.features.filter(function (feature) {
+          return feature.properties.group === groupName;
+        });
+
+        var groupCircle = L.featureGroup(
+          groupFeatures.map(function (feature) {
+            return L.circle(feature.geometry.coordinates.reverse(), {
+              radius: group.radius,
+              color: group.color,
+              fillOpacity: 0.2, // Adjust transparency
+            });
+          })
+        );
+
+        groupCircle.addTo(map);
+      });
     </script>
   </body>
 </html>
