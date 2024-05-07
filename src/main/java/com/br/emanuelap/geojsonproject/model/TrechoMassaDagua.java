@@ -12,9 +12,11 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class FozMaritima extends ItemGeojson {
+public class TrechoMassaDagua extends ItemGeojson
+{
 
-    private List<FozMaritima> fozesMaritimas;
-    private List<PontoDrenagem> pontoDrenagems;
+private List<MassaDagua> massaDaguas;
+private List<TrechoMassaDagua> trechoMassaDagua;
+private List<TrechoCursoDagua> trechoCursoDaguas;
 
 }

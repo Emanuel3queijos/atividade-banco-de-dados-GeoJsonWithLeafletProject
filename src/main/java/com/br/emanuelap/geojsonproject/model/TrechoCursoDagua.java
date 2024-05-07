@@ -1,6 +1,5 @@
 package com.br.emanuelap.geojsonproject.model;
 
-
 import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,9 +11,8 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class FozMaritima extends ItemGeojson {
+public class TrechoCursoDagua extends ItemGeojson {
 
-    private List<FozMaritima> fozesMaritimas;
-    private List<PontoDrenagem> pontoDrenagems;
-
+List<TrechoCursoDagua> trechoCursoDaguas;
+List<CursoDagua> cursoDaguas;
 }

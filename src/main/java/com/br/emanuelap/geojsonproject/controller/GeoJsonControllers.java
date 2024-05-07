@@ -23,18 +23,13 @@ public class GeoJsonControllers {
 
     @GetMapping("/")
     public String getTableNames(Model model) {
-        System.out.println("bateu");
-    List<String> tableNames = tableService.getTableNames();
+        List<String> tableNames = tableService.getTableNames();
         model.addAttribute("tableNames", tableNames);
         model.addAttribute("tablesQtd", tableNames.size());
 
 
-//        String geojsonData = geoJsonService.getGeoJsonData();
-//        model.addAttribute("geojsonData", geojsonData);
-
         return "index";
     }
-
 
 
 }
