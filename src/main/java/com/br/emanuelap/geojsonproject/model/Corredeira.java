@@ -16,7 +16,7 @@ import java.util.List;
 public class Corredeira extends ItemGeojson {
 
 
-    List<Corredeira> corredeiras;
+    private   List<Corredeira> corredeiras;
 
 
 }

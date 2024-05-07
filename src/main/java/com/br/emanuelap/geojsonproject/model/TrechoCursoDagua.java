@@ -13,6 +13,6 @@ import java.util.List;
 @Entity
 public class TrechoCursoDagua extends ItemGeojson {
 
-List<TrechoCursoDagua> trechoCursoDaguas;
-List<CursoDagua> cursoDaguas;
+    private List<TrechoCursoDagua> trechoCursoDaguas;
+    private List<CursoDagua> cursoDaguas;
 }

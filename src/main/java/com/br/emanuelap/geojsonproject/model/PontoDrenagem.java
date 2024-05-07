@@ -1,5 +1,6 @@
 package com.br.emanuelap.geojsonproject.model;
 
+import com.br.emanuelap.geojsonproject.enums.PontoDrenagemEnums;
 import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

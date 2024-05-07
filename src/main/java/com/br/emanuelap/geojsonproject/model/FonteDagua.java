@@ -15,6 +15,6 @@ import java.util.List;
 public class FonteDagua extends ItemGeojson{
 
 
-    List<FonteDagua> fonteDaguas;
+    private List<FonteDagua> fonteDaguas;
 
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class BaciaHidrografica extends ItemGeojson {
 
 
-    List<BaciaHidrografica> baciaHidrograficas;
+    private   List<BaciaHidrografica> baciaHidrograficas;
 
 
 

@@ -1,0 +1,10 @@
+package com.br.emanuelap.geojsonproject.enums;
+
+
+public enum TrechoDrenagemEnums {
+
+
+  CORREDEIRA, QEBRADAGUA, BARRAGEM, PONTODRENAGEM, TRECHOMASSADAGUA, TRECHOCURSODAGUA, MASSADAGUA, AREAUMIDA, TERRENOSUJEITOAINUNDACAO
+
+
+}

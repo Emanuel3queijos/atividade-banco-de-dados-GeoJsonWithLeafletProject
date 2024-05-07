@@ -15,11 +15,12 @@ import java.util.List;
 public class TrechoDrenagem extends ItemGeojson {
 
 
-    List<ItemGeojson> TrechosDrenagem;
-    List<MassaDagua> MassasDagua;
-    List<Corredeira> corredeiras;
-    List<QuebraDagua> quebraDaguas;
-    List<Barragem> barragems;
+
+   private List<ItemGeojson> TrechosDrenagem;
+    private List<MassaDagua> MassasDagua;
+    private List<Corredeira> corredeiras;
+    private  List<QuebraDagua> quebraDaguas;
+    private List<Barragem> barragems;
 
 
 

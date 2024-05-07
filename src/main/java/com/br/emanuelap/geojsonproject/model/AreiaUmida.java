@@ -15,8 +15,8 @@ import java.util.List;
 public class AreiaUmida extends ItemGeojson {
 
 
-    List<AreiaUmida> areiasUmidas;
-    List<MassaDagua> massaDaguas;
+    private List<AreiaUmida> areiasUmidas;
+    private List<MassaDagua> massaDaguas;
 
 
 }

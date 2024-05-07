@@ -16,9 +16,9 @@ import java.util.List;
 public class PontoInicioDrenagem extends ItemGeojson {
 
 
-    List<PontoInicioDrenagem> pontoInicioDrenagems;
-    List<PontoDrenagem> pontoDrenagems;
-    List<FonteDagua> fonteDaguas;
+    private   List<PontoInicioDrenagem> pontoInicioDrenagems;
+    private List<PontoDrenagem> pontoDrenagems;
+    private List<FonteDagua> fonteDaguas;
 
 
 }
