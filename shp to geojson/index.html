@@ -40,7 +40,7 @@
 				<i class="file archive icon"></i>
 				Upload zip file
 			</div>
-			<div id="removeLayer" class="negative large ui button">Remove All Features</div>
+			<div id="removeLayer" class="negative large ui button">Remover mapas</div>
 		</div>
 
 	</div></footer>
@@ -68,26 +68,26 @@
 						<div class="ui label">Encoding</div>
 						<input type="text" placeholder="Set your desired encoding UTF-8, Big5, Big5-HKSCS ... " id="encoding" class="v" onfocus="this.value='';">
 					</div>
-				</div>
+				</div> 
 
-				<div class="two fields">
+				<div >
 
-				<div class="right field"><div class="ui blue fluid labeled icon button" data-content="Metadata : EPSG: 3826, Encoding: big5" data-variation="inverted large" id="downloadfile">
-					<i class="download icon"></i>Download TestData
+				<div class="right field"><div class="ui blue fluid labeled icon disabled button" data-content="Metadata : EPSG: 3826, Encoding: big5" data-variation="inverted large" id="downloadfile">
+					<i class="download icon"></i>save on database
 				</div></div>
 
 				<div class="field"><div class="ui teal fluid labeled icon disabled button" id="preview">Preview
 					<i class="add icon"></i>
 				</div></div>
-
+<!-- 
 				<div class="ui feed">
 					<div class="content">
 						<div class="summary">
 						TestData Source <a href="http://data.tainan.gov.tw/dataset/tn-village" target="_blank">http://data.tainan.gov.tw/dataset/tn-village</a>.
 						</div>
 					</div>
-				</div>
-				<div id="cancel" class="negative right ui button">Cancel</div>
+				</div> -->
+				<div id="cancel" class="negative ui button">Cancel</div>
 
 				</div>
 			</div>
@@ -133,7 +133,7 @@
 	<script type="text/javascript" charset="UTF-8">
 	$(document).ready(function() {
 
-		var map = L.map('map').setView([ 0, 0 ], 5),
+		var map = L.map('map').setView([ 0, 0 ], 2),
 		file,
 		vector;
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png' , { maxZoom: 13}).addTo(map);
@@ -170,24 +170,52 @@
 		}
 
 
-		function saveGeoJSON(){
+	// 	function saveGeoJSON(){
 
-					$.ajax({
-        url: '/saveGeoJSON', // Rota no servidor para salvar o GeoJSON
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(data), // Envie o GeoJSON como uma string JSON
-        success: function(response) {
-            console.log('GeoJSON enviado com sucesso para o servidor.');
-            // Exibir mensagem de sucesso para o usuário, se necessário
-        },
-        error: function(xhr, status, error) {
-            console.error('Erro ao enviar GeoJSON para o servidor:', error);
-            // Lidar com erros, se necessário
-        }
-    });
+	// 				$.ajax({
+    //     url: '/saveGeoJSON', // Rota no servidor para salvar o GeoJSON
+    //     type: 'POST',
+    //     contentType: 'application/json',
+    //     data: JSON.stringify(data), // Envie o GeoJSON como uma string JSON
+    //     success: function(response) {
+    //         console.log('GeoJSON enviado com sucesso para o servidor.');
+    //         // Exibir mensagem de sucesso para o usuário, se necessário
+    //     },
+    //     error: function(xhr, status, error) {
+    //         console.error('Erro ao enviar GeoJSON para o servidor:', error);
+    //         // Lidar com erros, se necessário
+    //     }
+    // });
 
-		}
+	// 	}
+
+
+	function saveGeojsonDB() {
+    var epsg = ($('#epsg').val() == '') ? 4326 : $('#epsg').val(),
+        encoding = ($('#encoding').val() == '') ? 'UTF-8' : $('#encoding').val();
+    if (file.name.split('.')[1] == 'zip') {
+        if (file) $('.dimmer').addClass('active');
+        loadshp({
+            url: file,
+            encoding: encoding,
+            EPSG: epsg
+        }, function(data) {
+            geojson = data;
+            console.log(geojson); 
+
+			$('.dimmer').removeClass('active');
+					$('#preview').addClass('disabled');
+					$('#epsg').val('');
+					$('#encoding').val('');
+					$('#info').addClass('picInfo');
+					$('#option').slideUp(500);
+        });
+    } else {
+        $('.modal').modal('show');
+    }
+}
+
+
 		function loadShpZip() {
 
 	
@@ -227,20 +255,6 @@
 				$('.modal').modal('show');
 			}
 
-			$.ajax({
-        url: '/saveGeoJSON', // Rota no servidor para salvar o GeoJSON
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(data), // Envie o GeoJSON como uma string JSON
-        success: function(response) {
-            console.log('GeoJSON enviado com sucesso para o servidor.');
-            // Exibir mensagem de sucesso para o usuário, se necessário
-        },
-        error: function(xhr, status, error) {
-            console.error('Erro ao enviar GeoJSON para o servidor:', error);
-            // Lidar com erros, se necessário
-        }
-    });
 
 		}
 		initVector();
@@ -251,6 +265,7 @@
 				$('#dataInfo').text(' ').append(file.name+' , '+file.size+' kb');
 				$('#option').slideDown(500);
 				$('#preview').removeClass('disabled');
+				$('#downloadfile').removeClass('disabled');
 			}
 		});
 
@@ -272,7 +287,7 @@
 			map.fitBounds(vector.getBounds());
 		});
 		$('#downloadfile').click(function() {
-			window.location.href = 'demo/10tnvillage.zip';
+saveGeojsonDB();
 		});
 		$('#addZipfile').click(function() {
 			$('.shp-modal').toggleClass('effect');
