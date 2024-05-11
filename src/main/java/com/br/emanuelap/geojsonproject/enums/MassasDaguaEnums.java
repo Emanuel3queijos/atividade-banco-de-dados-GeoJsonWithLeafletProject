@@ -1,7 +1,0 @@
-package com.br.emanuelap.geojsonproject.enums;
-
-public enum MassasDaguaEnums {
-
-    ILHA, BANCOAREIA, RESERVATORIOHIDRICO, RECIFE, QUEBRAMARMOLHE, ROCHAEMAGUA, NATUREZAFUNDO, BACIAHIDROGRAFICA, QUEBRAMOLHE, BARRAGEM
-
-}
