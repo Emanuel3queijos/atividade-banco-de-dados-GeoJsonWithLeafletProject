@@ -11,12 +11,20 @@
 	<div id="map" ></div>
 
 
+	<!-- <div id="saveGeojson"><div class="ui page grid">
+		<div class="sixteen wide column center aligned">
+		<a id="saveGeoJSON" class="teal labeled icon large ui button" href="">
+		</a>
+		</div>
+	</div> -->
 	<div id="downloadLink"><div class="ui page grid">
 		<div class="sixteen wide column center aligned">
 		<a id="link" class="teal labeled icon large ui button" href="">
 		</a>
 		</div>
-	</div></div>
+	</div>
+</div>
+	</div>
 	<div id="attr"><div class="tableDisplay"><table id="attribute" class="ui small celled unstackable table">
 		<thead id="attrHead"><tr class="center aligned"><th>Attribute</th><th>Value</th></tr></thead>
 		<tbody class="tbodyContent"></tbody>
@@ -161,7 +169,28 @@
 			}).addTo(map);
 		}
 
+
+		function saveGeoJSON(){
+
+					$.ajax({
+        url: '/saveGeoJSON', // Rota no servidor para salvar o GeoJSON
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data), // Envie o GeoJSON como uma string JSON
+        success: function(response) {
+            console.log('GeoJSON enviado com sucesso para o servidor.');
+            // Exibir mensagem de sucesso para o usuário, se necessário
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao enviar GeoJSON para o servidor:', error);
+            // Lidar com erros, se necessário
+        }
+    });
+
+		}
 		function loadShpZip() {
+
+	
 			var epsg = ($('#epsg').val() == '') ? 4326 : $('#epsg').val(),
 			encoding = ($('#encoding').val() == '') ? 'UTF-8' : $('#encoding').val();
 			if(file.name.split('.')[1] == 'zip') {
@@ -197,6 +226,22 @@
 			} else {
 				$('.modal').modal('show');
 			}
+
+			$.ajax({
+        url: '/saveGeoJSON', // Rota no servidor para salvar o GeoJSON
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data), // Envie o GeoJSON como uma string JSON
+        success: function(response) {
+            console.log('GeoJSON enviado com sucesso para o servidor.');
+            // Exibir mensagem de sucesso para o usuário, se necessário
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao enviar GeoJSON para o servidor:', error);
+            // Lidar com erros, se necessário
+        }
+    });
+
 		}
 		initVector();
 
