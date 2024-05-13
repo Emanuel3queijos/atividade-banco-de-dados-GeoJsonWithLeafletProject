@@ -17,9 +17,11 @@
   "author": "bezkoder",
   "license": "ISC",
   "dependencies": {
+    "@tadashi/jsonb": "^5.0.1",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "gunzip-file": "^0.1.1",
     "pg": "^8.11.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.32.0"

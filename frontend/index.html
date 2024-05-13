@@ -130,7 +130,7 @@
 	<script src="demo/semantic.min.js"></script>
 	<script src="preprocess.js"></script>
 	<script src="preview.js"></script>
-	<script type="module" src="axiosService.js">
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		
 	</script>
 
@@ -187,12 +187,20 @@
             url: file,
             encoding: encoding,
             EPSG: epsg
-        }, function(data) {
-
+        }, async function(data) {
+//transformando geojson em gzip, mds que krl dificil 
+			const stream = new Blob([JSON.stringify(data)], {
+    type: 'application/json',
+}).stream();
+const compressedReadableStream = stream.pipeThrough(
+    new CompressionStream("gzip")
+);
+const compressedResponse = 
+  await new Response(compressedReadableStream);
 			
 //usando o axios pra mandar pro node, acho q vai funfar
 
-            AxiosService.request('post', '/save', { geojson: data })
+            axios.post('api/save', { geojson: data })
                 .then(function(response) {
                     $('.dimmer').removeClass('active');
                     $('#preview').addClass('disabled');

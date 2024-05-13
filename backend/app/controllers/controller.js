@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const bodyParser = require("body-parser");
+const zlib = require("zlib");
 const pool = require("../config/db.config");
 
-// Create (Criar)
-router.post("/dados", async (req, res) => {
+router.post("/save", async (req, res) => {
   const { name, geojson } = req.body;
   const query =
     "INSERT INTO dados_geograficos (name, geojson) VALUES ($1, $2) RETURNING *";
@@ -18,7 +19,7 @@ router.post("/dados", async (req, res) => {
 });
 
 // Read (Ler)
-router.get("/dados", async (req, res) => {
+router.get("/dados", async (res) => {
   try {
     const result = await pool.query("SELECT * FROM public.dados_geograficos");
     res.json(result.rows);
