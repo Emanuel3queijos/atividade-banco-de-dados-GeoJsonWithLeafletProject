@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 	<head>
@@ -111,9 +112,8 @@
 			</div></div>
 		</div>
 
- 	</div></div>
+ 	</div>
 
-	<div class="overlay"></div>
 
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
 	<link rel="stylesheet" href="demo/semantic.min.css"></link>
@@ -130,8 +130,15 @@
 	<script src="demo/semantic.min.js"></script>
 	<script src="preprocess.js"></script>
 	<script src="preview.js"></script>
+	<script type="module" src="axiosService.js">
+		
+	</script>
+
+
 	<script type="text/javascript" charset="UTF-8">
 	$(document).ready(function() {
+		
+		
 
 		var map = L.map('map').setView([ 0, 0 ], 2),
 		file,
@@ -170,27 +177,8 @@
 		}
 
 
-	// 	function saveGeoJSON(){
-
-	// 				$.ajax({
-    //     url: '/saveGeoJSON', // Rota no servidor para salvar o GeoJSON
-    //     type: 'POST',
-    //     contentType: 'application/json',
-    //     data: JSON.stringify(data), // Envie o GeoJSON como uma string JSON
-    //     success: function(response) {
-    //         console.log('GeoJSON enviado com sucesso para o servidor.');
-    //         // Exibir mensagem de sucesso para o usuário, se necessário
-    //     },
-    //     error: function(xhr, status, error) {
-    //         console.error('Erro ao enviar GeoJSON para o servidor:', error);
-    //         // Lidar com erros, se necessário
-    //     }
-    // });
-
-	// 	}
-
-
-	function saveGeojsonDB() {
+		function saveGeojsonDB() {
+			
     var epsg = ($('#epsg').val() == '') ? 4326 : $('#epsg').val(),
         encoding = ($('#encoding').val() == '') ? 'UTF-8' : $('#encoding').val();
     if (file.name.split('.')[1] == 'zip') {
@@ -200,14 +188,25 @@
             encoding: encoding,
             EPSG: epsg
         }, function(data) {
-            geojson = data;
 
-			$('.dimmer').removeClass('active');
-					$('#preview').addClass('disabled');
-					$('#epsg').val('');
-					$('#encoding').val('');
-					$('#info').addClass('picInfo');
-					$('#option').slideUp(500);
+			
+//usando o axios pra mandar pro node, acho q vai funfar
+
+            AxiosService.request('post', '/save', { geojson: data })
+                .then(function(response) {
+                    $('.dimmer').removeClass('active');
+                    $('#preview').addClass('disabled');
+                    $('#epsg').val('');
+                    $('#encoding').val('');
+                    $('#info').addClass('picInfo');
+                    $('#option').slideUp(500);
+                
+					alert("geojson Salvo no banco de dados")
+				
+				})
+                .catch(function(error) {
+                    alert('Erro ao salvar GeoJSON no banco de dados:', error);
+                });
         });
     } else {
         $('.modal').modal('show');
