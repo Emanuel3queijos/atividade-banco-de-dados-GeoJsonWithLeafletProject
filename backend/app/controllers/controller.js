@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const bodyParser = require("body-parser");
-const zlib = require("zlib");
 const pool = require("../config/db.config");
 
-router.post("/save", async (req, res) => {
+router.post("/salvarGeojsonDb", async (req, res) => {
   const { name, geojson } = req.body;
   const query =
     "INSERT INTO dados_geograficos (name, geojson) VALUES ($1, $2) RETURNING *";
@@ -18,8 +16,9 @@ router.post("/save", async (req, res) => {
   }
 });
 
-// Read (Ler)
-router.get("/dados", async (res) => {
+//esse cara vai retornar todos os geojsons, acho q n vou usar ele mt, n sei
+
+router.get("/pegarTodosGeojsonDB", async (res) => {
   try {
     const result = await pool.query("SELECT * FROM public.dados_geograficos");
     res.json(result.rows);
@@ -29,8 +28,8 @@ router.get("/dados", async (res) => {
   }
 });
 
-// Update (Atualizar)
-router.put("/dados/:id", async (req, res) => {
+// esse cara nunca vai ser usado kkkkkkkkkkkkkkkkkkkkkkkkkk
+router.put("putGeojson/:id", async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
   const query =
@@ -48,8 +47,25 @@ router.put("/dados/:id", async (req, res) => {
   }
 });
 
-// Delete (Excluir)
-router.delete("/dados/:id", async (req, res) => {
+router.get("/pegarGeoJsonByName/:name", async (req, res) => {
+  const { name } = req.params;
+  const query = "SELECT * FROM public.dados_geograficos WHERE name = $1"; 
+  const values = [name];
+  try {
+    const result = await pool.query(query, values);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Registro não encontrado" });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Erro ao pegar dados:", err);
+    res.status(500).json({ error: "Erro interno do servidor" });
+  }
+});
+
+
+// acho q esse aqui ta ok
+router.delete("/deleteGeojson/:id", async (req, res) => {
   const { id } = req.params;
   const query = "DELETE FROM dados_geograficos WHERE id = $1 RETURNING *";
   try {
